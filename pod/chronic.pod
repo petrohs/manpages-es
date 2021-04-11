@@ -1,0 +1,55 @@
+=head1 NOMBRE
+
+chronic - ejecuta un comando silenciosamente a menos que falle
+
+=head1 SINOPSIS
+
+chronic [-ev] COMMAND...
+
+=head1 DESCRIPCION
+
+chronic ejecuta un comando y hace que su salida estándar y su error estándar
+sólo se muestren si el comando falla (sale distinto de cero o se bloquea).
+Si el comando tiene éxito, cualquier salida extraña se ocultará.
+
+Un uso común de chronic es ejecutar un trabajo cron. En lugar de tratar de 
+mantener el comando en silencio y tener que lidiar con los correos que accidentalmente 
+se envian cuando se tiene éxito y no lo suficientemente detallado cuando falla
+puede simplemente ejecutarlo de forma verbosas siempre y usar chronic para ocultar
+la salida exitosa.
+
+	0    1 * * * chronic backup # instead of backup >/dev/null 2>&1
+	*/20 * * * * chronic -ve my_script # verbose for debugging
+
+=head1 OPTIONS
+
+=over 4
+
+=item -v
+
+Verbose output (distingue entre STDOUT y STDERR, tambien reporta RETVAL)
+
+=item -e
+
+Stderr triggering. Dispara la salida cuando la stderr tiene algun mensaje.
+Sin -e, chronic necesita una salida diferente de cero en el valor de exit.
+
+En este modo chronic regresa C<2> si el comando regresa C<0> pero la salida
+se muestra en stderr.
+
+=back
+
+=head1 AUTOR
+
+Copyright 2010 by Joey Hess <id@joeyh.name>
+
+Original concept and "chronic" name by Chuck Houpt.
+Code for verbose and stderr trigger by Tomas 'Harvie' Mudrunka 2016.
+
+Licensed under the GNU GPL version 2 or higher.
+
+Traducción: 
+petrohs
+
+=cut
+
